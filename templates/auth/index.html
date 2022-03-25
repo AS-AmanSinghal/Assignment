@@ -9,114 +9,127 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 
-    <title>HOME</title>
+    <title>Home</title>
 </head>
 
 <body style="padding-top: 70px;">
-    <nav style="z-index: 1;" class="navbar navbar-default fixed-top navbar-light shadow mb-3">
-        <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">Tweeter</a>
-            <div class="">
-                <div class="navbar-nav">
-                    {% if request.user.is_authenticated %}
-                    <a  href="{% url 'logout' %}" class="nav-link">Logout</a>
-                    <a  href="{% url 'post_add' %}" class="nav-link">Posts</a>
-                    {% endif %}
+<nav style="z-index: 1;" class="navbar navbar-default fixed-top navbar-light shadow mb-3">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">Tweeter</a>
+        <ul class="navbar-nav d-flex flex-row">
+            {% if request.user.is_authenticated %}
+            <a href="{% url 'post_add' %}" class="nav-link mr-3">Posts</a>
+            <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+<div class="container">
+
+    <div class="row">
+        {% include 'auth/message.html' %}
+        <div class="col-md-10 col-sm-12 order-md-0 order-1">
+            <div>
+                <ul class="nav nav-pills nav-fill mb-4" id="pills-tab" role="tablist">
+                    <li class="nav-item"><a class="nav-link active" id="pills-myfeed-tab" data-toggle="pill"
+                                            href="#pills-myfeed" role="tab" aria-controls="pills-myfeed"
+                                            aria-selected="true">My
+                        Feed</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" id="pills-userfeed-tab" data-toggle="pill"
+                                            href="#pills-userfeed" role="tab" aria-controls="pills-userfeed"
+                                            aria-selected="false">User
+                        Feed</a></li>
+                </ul>
+            </div>
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-myfeed" role="tabpanel"
+                     aria-labelledby="pills-myfeed-tab">
+                    <div class="col-md-10 col-sm-12 ">
+                        <h1>My Feeds</h1>
+                        {% for post in my_post_page_obj %}
+                        <div class="card px-2 mr-2 mb-2 shadow">
+                            <div class="card-body">
+                                <p class="m-0 font-weight-bold">{{post.title}}</p>
+                                <p>{{post.description}}</p>
+                            </div>
+                            <img class="card-img-bottom mb-2 rounded" height="400" src="{{post.image.url}}"/>
+                        </div>
+                        {% endfor %}
+                        <div class="pagination">
+                            <span class="step-links">
+                                {% if my_post_page_obj.has_previous %}
+                                    <a href="?page=1">&laquo; first</a>
+                                    <a href="?page={{ my_post_page_obj.previous_page_number }}">previous</a>
+                                {% endif %}
+
+                                <span class="current">
+                                    Page {{ my_post_page_obj.number }} of {{ my_post_page_obj.paginator.num_pages }}.
+                                </span>
+
+                                {% if my_post_page_obj.has_next %}
+                                    <a href="?page={{ my_post_page_obj.next_page_number }}">next</a>
+                                    <a href="?page={{ my_post_page_obj.paginator.num_pages }}">last &raquo;</a>
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
                 </div>
+                <div class="tab-pane fade show" id="pills-userfeed" role="tabpanel"
+                     aria-labelledby="pills-userfeed-tab">
+                    <div class="col-md-10 col-sm-12 ">
+                        <h1>User Feeds</h1>
+                        {% for post in followers_post_page_obj %}
+                        <div class="card px-2 mr-2 mb-2 shadow">
+                            <div class="card-body">
+                                <p class="m-0 font-weight-bold">{{post.title}}</p>
+                                <p>{{post.description}}</p>
+                            </div>
+                            <img class="card-img-bottom mb-2 rounded" height="400" src="{{post.image.url}}"/>
+                        </div>
+                        {% endfor %}
+                        <div class="pagination">
+                            <span class="step-links">
+                                {% if followers_post_page_obj.has_previous %}
+                                    <a href="?follower_post_page=1">&laquo; first</a>
+                                    <a href="?follower_post_page={{ followers_post_page_obj.previous_page_number }}">previous</a>
+                                {% endif %}
+
+                                <span class="current">
+                                    Page {{ followers_post_page_obj.number }} of {{ followers_post_page_obj.paginator.num_pages }}.
+                                </span>
+
+                                {% if followers_post_page_obj.has_next %}
+                                    <a href="?follower_post_page={{ followers_post_page_obj.next_page_number }}">next</a>
+                                    <a href="?follower_post_page={{ followers_post_page_obj.paginator.num_pages }}">last &raquo;</a>
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
-    </nav>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-10 col-sm-12 order-md-0 order-1">
-                {% include 'auth/message.html' %}
-                <div class="border-right">
-                    <h1>Feeds</h1>
-                    {% for post in followers_post_page_obj %}
-                    <div class="card px-2 mr-2 mb-2 shadow">
-                        <div class="card-body">
-                            <p class="m-0 font-weight-bold">{{post.title}}</p>
-                            <p>{{post.description}}</p>
-                        </div>
-                        <img class="card-img-bottom mb-2 rounded" height="400"
-                            src="{{post.image.url}}" />
-                    </div>
-                    {% endfor %}
-                    <div class="pagination">
-                        <span class="step-links">
-                            {% if followers_post_page_obj.has_previous %}
-                                <a href="?page=1">&laquo; first</a>
-                                <a href="?page={{ followers_post_page_obj.previous_page_number }}">previous</a>
-                            {% endif %}
-
-                            <span class="current">
-                                Page {{ followers_post_page_obj.number }} of {{ followers_post_page_obj.paginator.num_pages }}.
-                            </span>
-
-                            {% if followers_post_page_obj.has_next %}
-                                <a href="?page={{ followers_post_page_obj.next_page_number }}">next</a>
-                                <a href="?page={{ followers_post_page_obj.paginator.num_pages }}">last &raquo;</a>
-                            {% endif %}
-                        </span>
-                    </div>
+        <div class="col-md-2 col-sm-12 order-md-1 order-0">
+            <div>
+                {% if user_not_follow_page_obj.count > 0 %}
+                <h1>Users</h1>
+                {% endif %}
+                {% for follow in user_not_follow_page_obj %}
+                <div class="p-1 mb-2 shadow-sm">
+                    <p class="m-0">{{ follow.first_name }} {{ follow.last_name }}</p>
+                    <a href="{% url 'follow' pk=follow.id %}" class="text-primary">+ Follow</a>
                 </div>
-            </div>
-            <div class="col-md-2 col-sm-12 order-md-1 order-0">
-                <div>
-                    <h1>Users</h1>
-                    {% for follow in user_not_follow_page_obj %}
-                    <div class="p-1 mb-2 shadow-sm">
-                        <p class="m-0">{{ follow.first_name }} {{ follow.last_name }}</p>
-                        <a href="{% url 'follow' pk=follow.id %}" class="text-primary">+ Follow</a>
-                    </div>
-                    {% endfor %}
-                    <div class="pagination">
-                        <span class="step-links">
-                            {% if user_not_follow_page_obj.has_previous %}
-                                <a href="?page=1">&laquo; first</a>
-                                <a href="?page={{ user_not_follow_page_obj.previous_page_number }}">previous</a>
-                            {% endif %}
-
-                            <span class="current">
-                                Page {{ user_not_follow_page_obj.number }} of {{ user_not_follow_page_obj.paginator.num_pages }}.
-                            </span>
-
-                            {% if user_not_follow_page_obj.has_next %}
-                                <a href="?page={{ user_not_follow_page_obj.next_page_number }}">next</a>
-                                <a href="?page={{ user_not_follow_page_obj.paginator.num_pages }}">last &raquo;</a>
-                            {% endif %}
-                        </span>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 </body>
 
 </html>
-
-
-
-
-
-
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Title</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--{% include 'auth/message.html' %}-->
-<!--<form action="{% url 'logout' %}" method="post">-->
-<!--    {% csrf_token %}-->
-<!--    <button type="submit">Logout</button>-->
-<!--</form>-->
-<!--</body>-->
-<!--</html>-->
