@@ -14,7 +14,7 @@ def add_post(request):
             Posts.objects.create(user=request.user, title=request.POST.get('title'),
                                  description=request.POST.get('description'), image=request.FILES['image'])
             messages.success(request, 'Post created successfully.')
-            return redirect('post_add')
+            return redirect('home')
         except Exception as e:
             messages.error(request, str(e))
             return render(request, 'post/add.html')
