@@ -2,8 +2,8 @@ from django.contrib import auth
 from rest_framework import viewsets, mixins, status
 from rest_framework.response import Response
 
-from account.models import MyUser
-from .serializer import MyUserSerializer, LoginSerializer, LogoutSerializer
+from account.models import MyUser, Followers
+from .serializer import MyUserSerializer, LoginSerializer, LogoutSerializer, FollowersSerializer
 
 
 class MyUserViewSet(viewsets.GenericViewSet,
@@ -74,3 +74,30 @@ class LogoutViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
         auth.logout(request)
         return Response({'status': status.HTTP_200_OK,
                          'message': 'Logout successfully.'}, status=status.HTTP_200_OK)
+
+
+class FollowerViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin):
+    """Follower ViewSet"""
+    queryset = Followers.objects.all()
+    serializer_class = FollowersSerializer
+
+    def list(self, request, *args, **kwargs):
+        """ Get the list of users which are follow by user"""
+        following = Followers.objects.filter(follower=request.user)
+        return Response({'status': status.HTTP_200_OK,
+                         'message': 'List of follow user',
+                         'data': FollowersSerializer(following, many=True).data},
+                        status=status.HTTP_200_OK)
+
+    def create(self, request, *args, **kwargs):
+        """ Create Followers"""
+        try:
+            follower = Followers.objects.create(follower=request.user,
+                                                following=MyUser.objects.get(id=request.POST.get('following')))
+            return Response({'status': status.HTTP_201_CREATED,
+                             'message': 'Follow successfully',
+                             'data': FollowersSerializer(follower, many=False).data},
+                            status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'status': status.HTTP_400_BAD_REQUEST,
+                             'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)

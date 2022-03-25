@@ -29,6 +29,7 @@ router.register(r'login', viewset.LoginViewSet, basename='login')
 router.register(r'users', viewset.MyUserViewSet, basename='users')
 router.register(r'logout', viewset.LogoutViewSet, basename='logout')
 router.register(r'post', viewsets.PostViewSets, basename='post')
+router.register(r'follow', viewset.FollowerViewSet, basename='follow')
 
 urlpatterns = [
     path('api/', include(router.urls)),

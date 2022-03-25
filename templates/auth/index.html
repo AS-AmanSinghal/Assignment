@@ -1,14 +1,123 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+
+    <title>Sign Up & Sign In form in Bootstrap 4</title>
 </head>
-<body>
-{% include 'auth/message.html' %}
-<form action="{% url 'logout' %}" method="post">
-    {% csrf_token %}
-    <button type="submit">Logout</button>
-</form>
+
+<body style="padding-top: 70px;">
+    <nav style="z-index: 1;" class="navbar navbar-default fixed-top navbar-light shadow mb-3">
+        <div class="container">
+            <a class="navbar-brand" href="#">Tweeter</a>
+            <div class="">
+                <div class="navbar-nav">
+                    {% if request.user.is_authenticated %}
+                    <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-sm-12 order-md-0 order-1">
+                {% include 'auth/message.html' %}
+                <div class="border-right">
+                    <h1>Feeds</h1>
+                    <div class="card px-2 mr-2 mb-2 shadow">
+                        <div class="card-body">
+                            <p class="m-0 font-weight-bold">Abhinav</p>
+                            <p>abhihts20</p>
+                            <p>Some description some content</p>
+                        </div>
+                        <img class="card-img-bottom mb-2 rounded" height="400"
+                            src="./si.jpg" />
+                    </div>
+                    <div class="card px-2 mr-2 mb-2 shadow">
+                        <div class="card-body">
+                            <p class="m-0 font-weight-bold">Abhinav</p>
+                            <p>abhihts20</p>
+                            <p>Some description some content</p>
+                        </div>
+                        <img class="card-img-bottom mb-2 rounded" height="400"
+                            src="./si.jpg" />
+                    </div>
+                    <div class="card px-2 mr-2 mb-2 shadow">
+                        <div class="card-body">
+                            <p class="m-0 font-weight-bold">Abhinav</p>
+                            <p>abhihts20</p>
+                            <p>Some description some content</p>
+                        </div>
+                        <img class="card-img-bottom mb-2 rounded" height="400"
+                            src="./si.jpg" />
+                    </div>
+                    <div class="card px-2 mr-2 mb-2 shadow">
+                        <div class="card-body">
+                            <p class="m-0 font-weight-bold">Abhinav</p>
+                            <p>abhihts20</p>
+                            <p>Some description some content</p>
+                        </div>
+                        <img class="card-img-bottom mb-2 rounded" height="400"
+                            src="./si.jpg" />
+                    </div>
+                    <div class="card px-2 mr-2 mb-2 shadow">
+                        <div class="card-body">
+                            <p class="m-0 font-weight-bold">Abhinav</p>
+                            <p>abhihts20</p>
+                            <p>Some description some content</p>
+                        </div>
+                        <img class="card-img-bottom mb-2 rounded" height="400"
+                            src="./si.jpg" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-12 order-md-1 order-0">
+                <div>
+                    <h1>Users</h1>
+                    {% for follow in user_not_follow %}
+                    <div class="p-1 mb-2 shadow-sm">
+                        <p class="m-0">{{ follow.first_name }} {{ follow.last_name }}</p>
+                        <a href="{% url 'follow' pk=follow.id %}" class="text-primary">+ Follow</a>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 </body>
+
 </html>
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Title</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--{% include 'auth/message.html' %}-->
+<!--<form action="{% url 'logout' %}" method="post">-->
+<!--    {% csrf_token %}-->
+<!--    <button type="submit">Logout</button>-->
+<!--</form>-->
+<!--</body>-->
+<!--</html>-->
