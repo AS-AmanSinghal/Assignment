@@ -16,7 +16,7 @@ def get_followers_post_data(request):
     """User not follow data"""
     following = Followers.objects.filter(follower=request.user).values('following')
     followers_post = Posts.objects.filter(user_id__in=following)
-    paginator = Paginator(followers_post, 2)
+    paginator = Paginator(followers_post, 10)
     page_number = request.GET.get('follower_post_page')
     followers_post_page_obj = paginator.get_page(page_number)
     return followers_post_page_obj
@@ -25,7 +25,7 @@ def get_followers_post_data(request):
 def get_my_post_data(request):
     """My post data"""
     my_posts = Posts.objects.filter(user=request.user)
-    paginator = Paginator(my_posts, 2)
+    paginator = Paginator(my_posts, 10)
     page_number = request.GET.get('page')
     my_post_page_obj = paginator.get_page(page_number)
     return my_post_page_obj
