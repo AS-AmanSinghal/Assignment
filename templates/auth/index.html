@@ -5,6 +5,7 @@
     <title>Title</title>
 </head>
 <body>
+{% include 'auth/message.html' %}
 <form action="{% url 'logout' %}" method="post">
     {% csrf_token %}
     <button type="submit">Logout</button>

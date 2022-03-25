@@ -22,6 +22,7 @@
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-signup" role="tabpanel" aria-labelledby="pills-signup-tab">
                     <div class="col-sm-12 border shadow rounded pt-2">
+                        {% include 'auth/message.html' %}
                         <form action="{% url 'registration' %}" method="post" enctype="multipart/form-data" class="p-4" id="singnupFrom">
                             {% csrf_token %}
                             <div class="form-group">

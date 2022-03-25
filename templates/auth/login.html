@@ -24,6 +24,7 @@
                 <div class="tab-pane fade show active" id="pills-signin" role="tabpanel"
                     aria-labelledby="pills-signin-tab">
                     <div class="col-sm-12 border shadow rounded pt-2">
+                        {% include 'auth/message.html' %}
                         <form action="{% url 'login' %}" method="post" class="p-4" id="singninFrom">
                             {% csrf_token %}
                             <div class="form-group">
