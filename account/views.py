@@ -10,6 +10,7 @@ from account.models import MyUser
 
 
 def registration(request):
+    """ For create login users """
     if request.method == 'POST':
         try:
             user = MyUser.objects.create_superuser(first_name=request.POST.get('first_name'),
@@ -25,6 +26,7 @@ def registration(request):
 
 
 def user_login(request):
+    """ For login users"""
     if not request.user.is_authenticated:
         if request.method == 'POST':
             email = request.POST.get('email')
@@ -46,6 +48,7 @@ def user_login(request):
 
 @login_required(login_url='login')
 def user_logout(request):
+    """ For logout user"""
     if request.user.is_authenticated:
         auth.logout(request)
         messages.success(request, 'Logout successfully.')

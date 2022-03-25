@@ -8,6 +8,7 @@ from posts.models import Posts
 
 @login_required(login_url='login')
 def add_post(request):
+    """ For create post """
     if request.method == 'POST':
         try:
             Posts.objects.create(user=request.user, title=request.POST.get('title'),

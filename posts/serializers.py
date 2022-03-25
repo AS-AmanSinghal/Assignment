@@ -4,6 +4,7 @@ from posts.models import Posts
 
 
 class PostSerializer(serializers.ModelSerializer):
+    """ Post Serializer """
     image = serializers.ImageField()
 
     class Meta:

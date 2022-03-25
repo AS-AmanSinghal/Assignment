@@ -9,16 +9,19 @@ from .serializer import MyUserSerializer, LoginSerializer, LogoutSerializer
 class MyUserViewSet(viewsets.GenericViewSet,
                     mixins.ListModelMixin,
                     mixins.CreateModelMixin):
+    """ User ViewSet"""
     queryset = MyUser.objects.all()
     serializer_class = MyUserSerializer
 
     def list(self, request, *args, **kwargs):
+        """ Get the list of users """
         return Response({'status': status.HTTP_200_OK,
                          'message': 'List of users',
                          'data': MyUserSerializer(MyUser.objects.all(), many=True).data},
                         status=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):
+        """Create login user"""
         if request.POST.get('first_name') is None:
             return Response({'first_name': 'field required'})
         if request.POST.get('last_name') is None:
@@ -40,10 +43,12 @@ class MyUserViewSet(viewsets.GenericViewSet,
 
 
 class LoginViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
+    """Login ViewSet"""
     queryset = MyUser.objects.all()
     serializer_class = LoginSerializer
 
     def create(self, request, *args, **kwargs):
+        """ For login user"""
         user = auth.authenticate(email=request.POST.get('email'), password=request.POST.get('password'))
         if user is not None:
             if user.is_active:
@@ -60,10 +65,12 @@ class LoginViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
 
 
 class LogoutViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
+    """ Logout ViewSet"""
     queryset = MyUser.objects.all()
     serializer_class = LogoutSerializer
 
     def create(self, request, *args, **kwargs):
+        """ For logout user"""
         auth.logout(request)
         return Response({'status': status.HTTP_200_OK,
                          'message': 'Logout successfully.'}, status=status.HTTP_200_OK)

@@ -28,7 +28,7 @@ router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'login', viewset.LoginViewSet, basename='login')
 router.register(r'users', viewset.MyUserViewSet, basename='users')
 router.register(r'logout', viewset.LogoutViewSet, basename='logout')
-router.register(r'post', viewsets.AddPostViewSets, basename='post')
+router.register(r'post', viewsets.PostViewSets, basename='post')
 
 urlpatterns = [
     path('api/', include(router.urls)),

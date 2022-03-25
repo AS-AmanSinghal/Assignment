@@ -5,18 +5,21 @@ from posts.models import Posts
 from .serializers import PostSerializer
 
 
-class AddPostViewSets(viewsets.GenericViewSet, mixins.CreateModelMixin, mixins.ListModelMixin):
+class PostViewSets(viewsets.GenericViewSet, mixins.CreateModelMixin, mixins.ListModelMixin):
+    """ Post ViewSet"""
     queryset = Posts.objects.all()
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def list(self, request, *args, **kwargs):
+        """ Get List of posts"""
         return Response({'status': status.HTTP_200_OK,
                          'message': 'List of users',
                          'data': PostSerializer(Posts.objects.filter(user=request.user), many=True).data},
                         status=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):
+        """Create post"""
         try:
             post = Posts.objects.create(user=request.user, title=request.POST.get('title'),
                                         description=request.POST.get('description'), image=request.FILES['image'])
