@@ -9,7 +9,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 
-    <title>Sign Up & Sign In form in Bootstrap 4</title>
+    <title>HOME</title>
 </head>
 
 <body style="padding-top: 70px;">
@@ -32,63 +32,61 @@
                 {% include 'auth/message.html' %}
                 <div class="border-right">
                     <h1>Feeds</h1>
+                    {% for post in followers_post_page_obj %}
                     <div class="card px-2 mr-2 mb-2 shadow">
                         <div class="card-body">
-                            <p class="m-0 font-weight-bold">Abhinav</p>
-                            <p>abhihts20</p>
-                            <p>Some description some content</p>
+                            <p class="m-0 font-weight-bold">{{post.title}}</p>
+                            <p>{{post.description}}</p>
                         </div>
                         <img class="card-img-bottom mb-2 rounded" height="400"
-                            src="./si.jpg" />
+                            src="{{post.image.url}}" />
                     </div>
-                    <div class="card px-2 mr-2 mb-2 shadow">
-                        <div class="card-body">
-                            <p class="m-0 font-weight-bold">Abhinav</p>
-                            <p>abhihts20</p>
-                            <p>Some description some content</p>
-                        </div>
-                        <img class="card-img-bottom mb-2 rounded" height="400"
-                            src="./si.jpg" />
-                    </div>
-                    <div class="card px-2 mr-2 mb-2 shadow">
-                        <div class="card-body">
-                            <p class="m-0 font-weight-bold">Abhinav</p>
-                            <p>abhihts20</p>
-                            <p>Some description some content</p>
-                        </div>
-                        <img class="card-img-bottom mb-2 rounded" height="400"
-                            src="./si.jpg" />
-                    </div>
-                    <div class="card px-2 mr-2 mb-2 shadow">
-                        <div class="card-body">
-                            <p class="m-0 font-weight-bold">Abhinav</p>
-                            <p>abhihts20</p>
-                            <p>Some description some content</p>
-                        </div>
-                        <img class="card-img-bottom mb-2 rounded" height="400"
-                            src="./si.jpg" />
-                    </div>
-                    <div class="card px-2 mr-2 mb-2 shadow">
-                        <div class="card-body">
-                            <p class="m-0 font-weight-bold">Abhinav</p>
-                            <p>abhihts20</p>
-                            <p>Some description some content</p>
-                        </div>
-                        <img class="card-img-bottom mb-2 rounded" height="400"
-                            src="./si.jpg" />
+                    {% endfor %}
+                    <div class="pagination">
+                        <span class="step-links">
+                            {% if followers_post_page_obj.has_previous %}
+                                <a href="?page=1">&laquo; first</a>
+                                <a href="?page={{ followers_post_page_obj.previous_page_number }}">previous</a>
+                            {% endif %}
+
+                            <span class="current">
+                                Page {{ followers_post_page_obj.number }} of {{ followers_post_page_obj.paginator.num_pages }}.
+                            </span>
+
+                            {% if followers_post_page_obj.has_next %}
+                                <a href="?page={{ followers_post_page_obj.next_page_number }}">next</a>
+                                <a href="?page={{ followers_post_page_obj.paginator.num_pages }}">last &raquo;</a>
+                            {% endif %}
+                        </span>
                     </div>
                 </div>
             </div>
             <div class="col-md-2 col-sm-12 order-md-1 order-0">
                 <div>
                     <h1>Users</h1>
-                    {% for follow in user_not_follow %}
+                    {% for follow in user_not_follow_page_obj %}
                     <div class="p-1 mb-2 shadow-sm">
                         <p class="m-0">{{ follow.first_name }} {{ follow.last_name }}</p>
                         <a href="{% url 'follow' pk=follow.id %}" class="text-primary">+ Follow</a>
                     </div>
                     {% endfor %}
+                    <div class="pagination">
+                        <span class="step-links">
+                            {% if user_not_follow_page_obj.has_previous %}
+                                <a href="?page=1">&laquo; first</a>
+                                <a href="?page={{ user_not_follow_page_obj.previous_page_number }}">previous</a>
+                            {% endif %}
 
+                            <span class="current">
+                                Page {{ user_not_follow_page_obj.number }} of {{ user_not_follow_page_obj.paginator.num_pages }}.
+                            </span>
+
+                            {% if user_not_follow_page_obj.has_next %}
+                                <a href="?page={{ user_not_follow_page_obj.next_page_number }}">next</a>
+                                <a href="?page={{ user_not_follow_page_obj.paginator.num_pages }}">last &raquo;</a>
+                            {% endif %}
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
