@@ -1,6 +1,5 @@
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
 from account.models import MyUser
@@ -16,27 +15,30 @@ def registration(request):
                                                email=request.POST.get('email'),
                                                password=request.POST.get('password'))
         auth.login(request, user)
-        return HttpResponse(user)
+        return redirect('home')
     return render(request, 'auth/register.html')
 
 
 def user_login(request):
-    if request.method == 'POST':
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        user = auth.authenticate(email=email, password=password)
-        if user is not None:
-            if user.is_active:
-                auth.login(request, user)
-                return HttpResponse("Login")
+    if not request.user.is_authenticated:
+        if request.method == 'POST':
+            email = request.POST.get('email')
+            password = request.POST.get('password')
+            user = auth.authenticate(email=email, password=password)
+            if user is not None:
+                if user.is_active:
+                    auth.login(request, user)
+                    return redirect('home')
+            else:
+                return render(request, 'auth/login.html')
         else:
             return render(request, 'auth/login.html')
     else:
-        return render(request, 'auth/login.html')
+        return redirect('home')
 
 
 @login_required(login_url='login')
-def logout(request):
+def user_logout(request):
     if request.user.is_authenticated:
         auth.logout(request)
-    return redirect('login')
+        return redirect('login')
