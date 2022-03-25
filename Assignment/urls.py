@@ -22,11 +22,13 @@ from rest_framework import routers
 
 from Assignment import views
 from account import viewset
+from posts import viewsets
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'login', viewset.LoginViewSet, basename='login')
 router.register(r'users', viewset.MyUserViewSet, basename='users')
 router.register(r'logout', viewset.LogoutViewSet, basename='logout')
+router.register(r'post', viewsets.AddPostViewSets, basename='post')
 
 urlpatterns = [
     path('api/', include(router.urls)),
