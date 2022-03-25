@@ -57,6 +57,7 @@ def user_logout(request):
 
 @login_required(login_url='login')
 def follow(request, pk):
+    """ Create follower"""
     try:
         follower = request.user
         following = get_object_or_404(MyUser, id=pk)

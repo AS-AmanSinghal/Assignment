@@ -46,6 +46,7 @@ class FollowersSerializer(serializers.ModelSerializer):
         fields = ['id', 'follower', 'following']
 
     def to_representation(self, instance):
+        """ Change representation"""
         data = super(FollowersSerializer, self).to_representation(instance)
         data['follower'] = get_user_name(instance.follower.id)
         data['following'] = get_user_name(instance.following.id)
