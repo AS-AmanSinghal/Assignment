@@ -15,7 +15,7 @@
 <body style="padding-top: 70px;">
     <nav style="z-index: 1;" class="navbar navbar-default fixed-top navbar-light shadow mb-3">
         <div class="container">
-            <a class="navbar-brand" href="#">Tweeter</a>
+            <a class="navbar-brand" href="{% url 'home' %}">Tweeter</a>
             <div class="">
                 <div class="navbar-nav">
                     {% if request.user.is_authenticated %}
