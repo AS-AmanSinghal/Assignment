@@ -8,12 +8,16 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-
     <title>Home</title>
+    <style>
+        a{
+            cursor: pointer;;
+        }
+    </style>
 </head>
 
 <body style="padding-top: 70px;">
-<nav style="z-index: 1;" class="navbar navbar-default fixed-top navbar-light shadow mb-3">
+<nav class="navbar navbar-default fixed-top navbar-light bg-light shadow mb-3">
     <div class="container">
         <a class="navbar-brand" href="{% url 'home' %}">Tweeter</a>
         <ul class="navbar-nav d-flex flex-row">
@@ -25,9 +29,8 @@
     </div>
 </nav>
 <div class="container">
-
+    {% include 'auth/message.html' %}
     <div class="row">
-        {% include 'auth/message.html' %}
         <div class="col-md-10 col-sm-12 order-md-0 order-1">
             <div>
                 <ul class="nav nav-pills nav-fill mb-4" id="pills-tab" role="tablist">
