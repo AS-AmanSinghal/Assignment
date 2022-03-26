@@ -1,5 +1,5 @@
 from django.contrib import auth
-from rest_framework import viewsets, mixins, status
+from rest_framework import viewsets, mixins, status, permissions
 from rest_framework.response import Response
 
 from account.models import MyUser, Followers
@@ -80,6 +80,7 @@ class FollowerViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.Cre
     """Follower ViewSet"""
     queryset = Followers.objects.all()
     serializer_class = FollowersSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def list(self, request, *args, **kwargs):
         """ Get the list of users which are follow by user"""
